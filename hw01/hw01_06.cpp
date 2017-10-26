@@ -2,29 +2,33 @@
 #include <math.h>
 using namespace std;
 
-float f(int n); // n, number of iterations
-double f_d(int n);
-float f(int n){
+void f(int n); // n, number of iterations
+void g(int n); //Modified to avoid round-off error
+
+void f(int n){
+	
 	float x = 0.01f;
 	for (int i = 0; i < n; ++i)
-	{	
-		x = x/2.0f; 
+	{	 
 		cout << (1-cos(x))/pow(x,2) << endl;
+		x = x/2.0f;
 	}
-}
-double f_d(int n){
-	double x = 0.01;
-	for (int i = 0; i < n; ++i)
-	{	
-		x = x/2.0; 
-		cout << (1-cos(x))/pow(x,2) << endl;
-	}
+	
 }
 
+void g(int n){
+	double x = 0.01f;
+	for (int i = 0; i < n; ++i)
+	{
+		cout << "g(x)= " << pow(sin(x),2)/(pow(x,2)*(1+cos(x))) << endl;
+		x = x/2.0;
+	}
+}
 
 int main(){
-	cout << "Single precision: " << endl;
-	f(100);
-	
+	cout << "Single precision, lim f(x) " << endl;
+	f(30);
+	cout << "Modified, lim g(x) " << endl;
+	g(30);
 	return 0;
 }

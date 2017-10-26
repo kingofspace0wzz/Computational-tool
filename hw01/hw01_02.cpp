@@ -27,8 +27,14 @@ int fact_int(int x, int y){
 
 int main(){
 
-	cout << fact_int(1,20) << endl;
-	cout << fact_double(1,20) << endl;
+	cout << "If compute factorial as int, 20!= " 
+		<< fact_int(1,20) << endl;
+	cout << "If compute factorial as int, 40!= " 
+		<< fact_int(1,40) << endl;	
+	cout << "If compute factorial as double, 20!= " 
+		<< fact_double(1,20) << endl;
+	cout << "If compute factorial as double, 40!= " 
+		<< fact_double(1,40) << endl;	
 
 	return 0;
 }
