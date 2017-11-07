@@ -3,60 +3,82 @@
 
 using namespace std;
 
-const int cols = 4;
 
-double* crs(double x[][cols], int rows){
-	// Args: two-dimensional array, rows and cols
-	// Returns: Val array, col_ind array, row_ptr array
-	int non = 0;
-	int count = 0;
-	bool in = false;
-	int b = 0;
-	double* row_ptr = new double[rows+1];
-	for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < cols; ++j)
-		{
-			if (x[i][j] != 0)
-			{
-				non++;	
-			}
-		}
-	}
-	double val[] = new double[non];
-	double* col_ind = new double[non];
-	for (int i = 0; i < rows; ++i)
-	{
-		in = true;
-		for (int j = 0; j < cols; ++j)
-		{
-			if (x[i][j] != 0)
-			{	
-				if (in == 1)
-				{
-					row_ptr[b] = count;
-					b++;
-				}
-				val[count] = x[i][j];
-				col_ind[count] = j;
-				count++;
-				in = false;
-			}
-		}
-	}
-	row_ptr[rows] = non+1;
-	double* pointer = new double[3];
-	pointer[0] = val;
-	pointer[1] = col_ind;
-	pointer[2] = row_ptr;
-	return pointer;
-}
 
 int main(){
 	double x[4][4] = {{1,0,0,1},
 					  {0,0,0,1},
 					  {0,0,1,0},
 					  {0,1,1,1}};
-	double* c = crs(x, 4);
+	int non = 0;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (x[i][j] != 0)
+			{
+				non++;
+			}
+		}
+	}
+
+	int val_col[2][non];	// val_col is a matrix that stores nonzero values in the first row
+							// and stores the column index of nonzero values in the second row
+	
+	int row_id[4];	// Stores the indexs of first nonzero value each row in val_col
+
+
+	int k = 0;
+
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (x[i][j] != 0)
+			{
+				val_col[0][k] = x[i][j];
+				val_col[1][k] = j;
+				k++;
+			}
+		}
+	}
+	non = 0;
+	int count = 0;
+	bool in = false;
+	for (int i = 0; i < 4; ++i)
+	{
+		in = true;
+		for (int j = 0; j < 4; ++j)
+		{
+			if (in)
+			{
+				if (x[i][j] != 0)
+				{
+					row_id[count] = non;
+					count++;
+					in = false;	
+				}
+				
+			}
+			non++;
+		}
+	}
+
+
+	for (int i = 0; i < 2; ++i)
+	{
+		for (int j = 0; j < non; ++j)
+		{
+			cout << val_col[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		cout << row_id[i] << " ";
+	}
 
 }
